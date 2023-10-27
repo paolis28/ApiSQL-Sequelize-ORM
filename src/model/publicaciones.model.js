@@ -6,27 +6,39 @@ const sequelize = new Sequelize("red_social", "root", "basepaola",{
     port: 3006
 });
 
+class Publicaciones extends Model{}
 
-class Usuario extends Model{}
-
-Usuario.init({
+Publicaciones.init({
     id:{
         type:DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey:true,
     },
-    nombre:{
+    titulo:{
         type:DataTypes.STRING,
         allowNull:false,
     },
-    email:{
+    contenido:{
         type:DataTypes.STRING,
         allowNull:false,
+    },
+    fechaCreacion:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
+
+    usuarioId:{
+        type:DataTypes.INTEGER,
+
+        references:{
+            model:Usuario,
+            key:'id',
+            deferrable: Deferrable.INITIALLY_IMMEDIATE
+        }
     }
-}, {
+},{
     sequelize,
-    modelName: "Usuario"
+    modelName: "Publicacion"
 });
 
-module.exports = Usuario;
-
+module.exports=Publicaciones;
