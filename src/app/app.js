@@ -1,5 +1,5 @@
 const express = require('express');
-const router=require('../router/product.router');
+const router = require('../router/usuario.router');
 const morgan = require('morgan');
 
 const app=express();

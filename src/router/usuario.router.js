@@ -1,14 +1,20 @@
 const router = require('express').Router();
 const {faker} = require('@faker-js/faker');
-const Usuarios = require("../model/usuario.model");
+const Usuario = require("../model/usuario.model");
 
-router.get("/red_social/usuario:id", async (req,res)=>{
-    const usuarios =await Usuarios.finAll()
-    res.status(200).json({
+router.get("/buscar/:id", async (req,res)=>{
+    const id = req.params.id;
+    try {
+        const usuarios = await Usuario.findByPk(id)
+        res.status(200).json({
         ok:true,
         status:200,
         body: usuarios
     })
+    } catch (error) {
+        res.status(500).json({error: "Error al buscar los datos"})
+    }
+    
 })
 
 router.get("/red_social/usuario:id", async(req,res)=>{
@@ -39,11 +45,11 @@ router.post("/red_social", async (req,res)=>{
 })
 
 router.put("/red_social/usuario:id", async (req,res)=>{
-    const id=req.params.id
-    const dataUsuarios=res.body;
-    const updateUsuario=await Usuarios.update({
-        nombre_usuario: faker.commerce.usuario(),
-        email_usuario: faker.commerce.usuario()
+    const id = req.params.id
+    const { usuario, email } = req.body;
+    const updateUsuario = await Usuarios.update({
+        usuario: usuario,
+        email: email
     }, {
         where: {
             id:id

@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-const sequelize = new Sequelize("red_social", "root", "basepaola",{
+const sequelize = new Sequelize("red_social", "root", "luis2004",{
     host: "localhost",
     dialect: "mysql",
-    port: 3006
+    port: 3306
 });
 
 
@@ -25,7 +25,7 @@ Usuario.init({
     }
 }, {
     sequelize,
-    modelName: "Usuario"
+    modelName: "usuarios"
 });
 
 module.exports = Usuario;
