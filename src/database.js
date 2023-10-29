@@ -3,7 +3,7 @@ const {Sequelize} = require("sequelize");
 const sequelize = new Sequelize( 
     "red_social", 
     "root", 
-    "basepaola",
+    "kato2601",
 {
     host: "localhost",
     dialect: "mysql",

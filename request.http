@@ -1,11 +1,15 @@
-        # CONSULTAS DE USUARIOS
-###
-GET  http://localhost:3001/usuario/buscarTodos HTTP/1.1      
-Content-Type: : application/json
-
+# CONSULTAS DE USUARIOS
+  
 ###
 GET http://localhost:3001/usuario/buscarUnico/1 HTTP/1.1
+
+###
+GET http://localhost:3001/usuario/buscarTodos HTTP/1.1
+###
+GET http://localhost:3001/usuario/buscarCorreo HTTP/1.1
 Content-Type: application/json
+
+{ "email": "Yomero@gmail.com" }
 
 ###
 POST http://localhost:3001/usuario/agregar HTTP/1.1
@@ -45,28 +49,30 @@ POST http://localhost:3001/publicacion/agregarPubli HTTP/1.1
 Content-Type: application/json
 
 {
-    "publicacion_id":4,
+    "publicacion_id":2,
     "titulo": "Obrador y la 4ta transformacion",
-    "contenido": "La politica en su máximo poder y cambio",
+    "contenido": "La politica en su mÃ¡ximo poder y cambio",
     "fechaCreacion": "2023-10-28",
     "usuario_id": 1
 }
 
 ###
-PUT http://localhost:3001/publicacion/modificarPubli/1 HTTP/1.1
+PUT http://localhost:3001/publicacion/modificarPubli/2 HTTP/1.1
 Content-Type: application/json
 
 {
-    "publicacion_id":1,
+    "publicacion_id":2,
     "titulo": "Deep Web",
     "contenido": "Niveles de la Deep Web",
-    "fechaCreacion": "2023-10-28",
+    "fechaCreacion": "2023-10-26",
     "usuario_id": 1
 }
 
 ###
-DELETE http://localhost:3001/publicacion/eliminarPubli/2 HTTP/1.1
+DELETE http://localhost:3001/publicacion/eliminarPubli/2023-10-26 HTTP/1.1
 Content-Type: application/json
+
+
 
 ##################  CONSULTAS DE COMENTARIOS  ###########################
 
@@ -103,5 +109,10 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3001/comentario/Eliminarcomen/1 HTTP/1.1
+DELETE http://localhost:3001/comentario//Eliminarcomen HTTP/1.1
 Content-Type: application/json
+
+{
+    "fechaCreacion" : "2023-10-28",
+    "publicacion_id" : 1
+}
