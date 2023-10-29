@@ -1,0 +1,107 @@
+        # CONSULTAS DE USUARIOS
+###
+GET  http://localhost:3001/usuario/buscarTodos HTTP/1.1      
+Content-Type: : application/json
+
+###
+GET http://localhost:3001/usuario/buscarUnico/1 HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3001/usuario/agregar HTTP/1.1
+Content-Type: application/json
+
+{
+    "usuario_id":2,
+    "nombre": "Luis",
+    "email": "Alberto@gmail.com"
+}
+
+###
+PUT http://localhost:3001/usuario/modificar/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "usuario_id":2,
+    "nombre": "Luis",
+    "email": "Gutierrez@gmail.com"
+}
+
+###
+DELETE http://localhost:3001/usuario/eliminar/2 HTTP/1.1
+Content-Type: application/json
+
+##################  CONSULTAS DE PUBLICACION  ###########################
+###
+GET http://localhost:3001/publicacion/Buscarpublicaciones HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3001/publicacion/BuscarUnicaPubli/1 HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3001/publicacion/agregarPubli HTTP/1.1
+Content-Type: application/json
+
+{
+    "publicacion_id":4,
+    "titulo": "Obrador y la 4ta transformacion",
+    "contenido": "La politica en su máximo poder y cambio",
+    "fechaCreacion": "2023-10-28",
+    "usuario_id": 1
+}
+
+###
+PUT http://localhost:3001/publicacion/modificarPubli/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "publicacion_id":1,
+    "titulo": "Deep Web",
+    "contenido": "Niveles de la Deep Web",
+    "fechaCreacion": "2023-10-28",
+    "usuario_id": 1
+}
+
+###
+DELETE http://localhost:3001/publicacion/eliminarPubli/2 HTTP/1.1
+Content-Type: application/json
+
+##################  CONSULTAS DE COMENTARIOS  ###########################
+
+###
+GET http://localhost:3001/comentario/BuscarComentarios HTTP/1.1
+Content-Type: application/json
+
+###
+GET http://localhost:3001/comentario/BuscarUnicoComen/1 HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3001/comentario/agregarComentario HTTP/1.1
+Content-Type: application/json
+
+{
+    "comentario_id":1,
+    "contenido": "Respetar nuestras opiniones debe ser lo importante",
+    "fechaCreacion": "2023-10-28",
+    "publicacion_id": "1",
+    "usuario_id": 1
+}
+
+###
+PUT http://localhost:3001/comentario/comentarios/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "comentario_id":1,
+    "contenido": "Respeto muto debe ser primordial",
+    "fechaCreacion": "2023-10-28",
+    "publicacion_id": "1",
+    "usuario_id": 1
+}
+
+###
+DELETE http://localhost:3001/comentario/Eliminarcomen/1 HTTP/1.1
+Content-Type: application/json

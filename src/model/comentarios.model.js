@@ -1,49 +1,39 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { DataTypes} = require('sequelize');
+const sequelize = require ('../database');
+const Usuario = require('./usuario.model');
+const Publicaciones = require('./publicaciones.model');
 
-const sequelize = new Sequelize("red_social", "root", "basepaola",{
-    host: "localhost",
-    dialect: "mysql",
-    port: 3006
-});
-
-class Comentarios extends Model{}
-
-Comentarios.init({
-    id:{
-        type:DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+const Comentarios=sequelize.define('Comentarios', {
+    comentario_id:{
+        type:DataTypes.INTEGER,
         primaryKey:true,
     },
     contenido:{
         type:DataTypes.STRING,
-        allowNull:false,
     },
     fechaCreacion:{
         type:DataTypes.STRING,
-        allowNull:false,
     },
 
-    publicacionId:{
+    publicacion_id:{
         type:DataTypes.INTEGER,
 
         references:{
-            model:Publicacion,
-            key: 'id',
-            deferrable: Deferrable.INITIALLY_IMMEDIATE
+            model:Publicaciones,
+            key:'publicacion_id',
         }
     },
-    usuarioId:{
-        type:DataTypes.INTEGER,
 
+    usuario_id:{
+        type:DataTypes.INTEGER,
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE',
+        
         references:{
             model:Usuario,
-            key: 'id',
-            deferrable: Deferrable.INITIALLY_IMMEDIATE
+            key:'usuario_id'
         }
     }
-},{
-    sequelize,
-    modelName: "Comentarios"
 });
 
 module.exports=Comentarios;

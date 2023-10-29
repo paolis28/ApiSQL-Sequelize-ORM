@@ -1,44 +1,33 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../database');
+const {DataTypes} = require('sequelize');
+const Usuario = require('./usuario.model')
 
-const sequelize = new Sequelize("red_social", "root", "basepaola",{
-    host: "localhost",
-    dialect: "mysql",
-    port: 3006
-});
-
-class Publicaciones extends Model{}
-
-Publicaciones.init({
-    id:{
-        type:DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+const Publicacion = sequelize.define('Publicacion', {
+    publicacion_id:{
+        type:DataTypes.INTEGER,
         primaryKey:true,
     },
     titulo:{
         type:DataTypes.STRING,
-        allowNull:false,
     },
     contenido:{
         type:DataTypes.STRING,
-        allowNull:false,
     },
     fechaCreacion:{
         type:DataTypes.STRING,
-        allowNull:false,
     },
 
-    usuarioId:{
+    usuario_id:{
         type:DataTypes.INTEGER,
-
+        onDelete:'CASCADE',
+        onUpdate:'CASCADE',
+        
         references:{
             model:Usuario,
-            key:'id',
-            deferrable: Deferrable.INITIALLY_IMMEDIATE
+            key:'usuario_id'
         }
     }
-},{
-    sequelize,
-    modelName: "Publicacion"
 });
 
-module.exports=Publicaciones;
+
+module.exports = Publicacion;

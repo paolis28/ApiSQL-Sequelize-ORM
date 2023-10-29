@@ -1,32 +1,19 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = require('../database');
+const {DataTypes} = require('sequelize');
 
-const sequelize = new Sequelize("red_social", "root", "luis2004",{
-    host: "localhost",
-    dialect: "mysql",
-    port: 3306
-});
-
-
-class Usuario extends Model{}
-
-Usuario.init({
-    id:{
-        type:DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+const Usuario = sequelize.define('Usuario', {
+    usuario_id:{
+        type: DataTypes.INTEGER,
         primaryKey:true,
     },
     nombre:{
-        type:DataTypes.STRING,
-        allowNull:false,
+        type: DataTypes.STRING,
     },
     email:{
-        type:DataTypes.STRING,
-        allowNull:false,
+        type: DataTypes.STRING,
     }
-}, {
-    sequelize,
-    modelName: "usuarios"
 });
+
 
 module.exports = Usuario;
 

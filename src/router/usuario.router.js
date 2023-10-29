@@ -1,80 +1,87 @@
 const router = require('express').Router();
-const {faker} = require('@faker-js/faker');
 const Usuario = require("../model/usuario.model");
 
-router.get("/buscar/:id", async (req,res)=>{
-    const id = req.params.id;
+router.get("/buscarTodos", async (req,res)=>{
     try {
-        const usuarios = await Usuario.findByPk(id)
+        const usuario = await Usuario.findAll()
         res.status(200).json({
-        ok:true,
-        status:200,
-        body: usuarios
-    })
-    } catch (error) {
-        res.status(500).json({error: "Error al buscar los datos"})
-    }
-    
-})
-
-router.get("/red_social/usuario:id", async(req,res)=>{
-    const id= req.params.id;
-    const usuario =await Usuarios.findOne({
-        where:{
-            id:id,
-        }
-    })
-    res.status(200).json({
         ok:true,
         status:200,
         body: usuario
     })
+    } catch (error) {
+        res.status(500).json({error: "Error al buscar los datos"})
+    }
 })
 
-router.post("/red_social", async (req,res)=>{
-    await Usuarios.sync()
-    const createUsuario=await Usuarios.create({
-        nombre_usuario: faker.commerce.usuario(),
-        email_usuario: faker.commerce.usuario()
-    })
-    res.status(201).json({
-        ok:true,
-        status:201,
-        message:"Create User"
-    })
+router.get("/buscarUnico/:id", async(req,res)=>{
+    try{
+        const id = req.params.id;
+        const usuario =await Usuario.findOne({
+            where:{
+                usuario_id:id,
+            }
+        })
+        res.status(200).json({
+            ok:true,
+            status:200,
+            body: usuario
+        })
+    }catch(error){
+        res.status(500).json({error: "Error al buscar el dato"});
+        console.log(error);
+    }
 })
 
-router.put("/red_social/usuario:id", async (req,res)=>{
-    const id = req.params.id
-    const { usuario, email } = req.body;
-    const updateUsuario = await Usuarios.update({
-        usuario: usuario,
-        email: email
-    }, {
-        where: {
-            id:id
-        }
-    })
-    res.status(200).json({
-        ok:true,
-        status:200,
-        boyd:updateUsuario
-    })
+router.post("/agregar", async (req,res)=>{
+    const {usuario_id, nombre, email }=req.body;
+    try{
+        await Usuario.sync()
+        const usuario = await Usuario.create({
+            usuario_id: usuario_id,
+            nombre: nombre,
+            email: email
+        });
+        res.json(usuario);
+    }catch(error){
+        res.status(500).json({error: "Error al agregar los datos"});
+        console.log(error);
+    }
+})
+
+router.put("/modificar/:id", async (req,res)=>{
+    try{
+        const id = req.params.id
+        const { usuario, email} = req.body;
+        const updateUsuario = await Usuario.update({
+            usuario: usuario,
+            email: email,
+        }, {
+            where: {
+                usuario_id:id
+            }
+        })
+        res.send("Usuario Modificado");
+    }catch(error){
+        res.status(500).json({error: "Error al modificar los datos"});
+        console.log(error);
+    }
 });
 
 
-router.delete("/red_social/usuario:id", async(req,res)=>{
-    const id=req.params.id;
-    const deleteUsuario=await Usuarios.destroy({
-        where:{
-            id:id
-        },
-    })
-    res.status(204).json({
-        ok:true,
-        status:204,
-        body:deleteUsuario
-    })
+router.delete("/eliminar/:id", async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const deleteUsuario=await Usuario.destroy({
+            where:{
+                usuario_id:id
+            },
+        })
+        res.send("Usuario eliminado")
+    }catch(error){
+        res.status(500).json({error: "Error al eliminar los datos"});
+        console.log(error);
+    }
 })
 
 module.exports=router;

@@ -1,8 +1,10 @@
 const express = require('express');
-const router = require('../router/usuario.router');
+const Usuario = require('../router/usuario.router');
+const Publicacion = require('../router/publicaciones.router');
+const Comentarios= require('../router/comentarios.router');
 const morgan = require('morgan');
-
 const app=express();
+
 app.use(morgan("dev"));
 
 app.get('/',(req, res)=>{
@@ -10,6 +12,8 @@ app.get('/',(req, res)=>{
 });
 
 app.use(express.json());
-app.use("/api/v1", router);
+app.use("/usuario", Usuario);
+app.use("/publicacion", Publicacion);
+app.use("/comentario", Comentarios);
 
 module.exports=app;

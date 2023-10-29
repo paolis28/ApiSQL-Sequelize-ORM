@@ -1,77 +1,89 @@
 const router = require('express').Router();
-const {faker} = require('@faker-js/faker');
-const Publicaciones = require ('../model/publicaciones.model');
+const Publicacion = require('../model/publicaciones.model')
 
-router.get("/red_social/publicaciones:id", async (req,res)=>{
-    const publicacion =await Publicaciones.finAll()
-    res.status(200).json({
-        ok:true,
-        status:200,
-        body: publicacion
-    })
+router.get("/Buscarpublicaciones", async (req,res)=>{
+    try{
+        const publicacion =await Publicacion.findAll()
+        res.status(200).json({
+            ok:true,
+            status:200,
+            body: publicacion
+        })
+    }catch(error){
+        res.status(500).json({error: "Error al buscar las publicaciones"})
+    }
 })
 
-router.get("/red_social/publicaciones:id", async(req,res)=>{
-    const id= req.params.id;
-    const publicacion =await Publicaciones.findOne({
-        where:{
-            id:id,
-        }
-    })
-    res.status(200).json({
-        ok:true,
-        status:200,
-        body: publicacion
-    })
+router.get("/BuscarUnicaPubli/:id", async(req,res)=>{
+    try{
+        const id= req.params.id;
+        const publicacion =await Publicacion.findOne({
+            where:{
+                publicacion_id:id,
+            }
+        })
+        res.status(200).json({
+            ok:true,
+            status:200,
+            body: publicacion
+        })
+    }catch(error){
+        res.status(500).json({error: "Error al buscar la publicacion"})
+    }
 })
 
-router.post("/red_social", async (req,res)=>{
-    await Publicaciones.sync()
-    const createPublicacion=await Publicaciones.create({
-        titulo: faker.commerce.publicacion(),
-        contenido: faker.commerce.publicacion(),
-        fechaCreacion: faker.commerce.publicacion(),
-        usuarioId: faker.commerce.publicacion(),
-    })
-    res.status(201).json({
-        ok:true,
-        status:201,
-        message:"Create Publication"
-    })
-})
+router.post("/agregarPubli", async (req,res)=>{
+    const {publicacion_id,titulo,contenido,fechaCreacion,usuario_id}=req.body;
+    try{
+        await Publicacion.sync()
+        const createPublicacion=await Publicacion.create({
+            publicacion_id: publicacion_id,
+            titulo:titulo,
+            contenido:contenido,
+            fechaCreacion:fechaCreacion,
+            usuario_id:usuario_id
+        });
+        res.json(createPublicacion)
+    }catch(error){
+        res.status(500).json({error: "Error al agregar publicacion"})
+        console.log(error)
+    }
+});
 
-router.put("/red_social/publicaciones:id", async (req,res)=>{
-    const id=req.params.id
-    const dataPublicacion=res.body;
-    const updatePublicacion=await Publicaciones.update({
-        titulo: faker.commerce.publicacion(),
-        contenido: faker.commerce.publicacion(),
-        fechaCreacion: faker.commerce.publicacion(),
-    }, {
-        where: {
-            id:id
-        }
-    })
-    res.status(200).json({
-        ok:true,
-        status:200,
-        boyd:updatePublicacion
-    })
+router.put("/modificarPubli/:id", async (req,res)=>{
+    try{
+        const id=req.params.id
+        const {publicacion_id,titulo,contenido,fechaCreacion,usuarioId}=req.body;
+        const updatePublicacion=await Publicacion.update({
+            publicacion_id: publicacion_id,
+            titulo:titulo,
+            contenido:contenido,
+            fechaCreacion:fechaCreacion,
+            usuarioId:usuarioId
+        }, {
+            where: {
+                publicacion_id:id
+            }
+        })
+        res.send("Publicacion modificada")
+    }catch(error){
+        res.status(500).json({error: "Error al modificar publicacion"})
+    }
 });
 
 
-router.delete("/red_social/publicaciones:id", async(req,res)=>{
-    const id=req.params.id;
-    const deletePublicacion=await Publicaciones.destroy({
-        where:{
-            id:id
-        },
-    })
-    res.status(204).json({
-        ok:true,
-        status:204,
-        body:deletePublicacion
-    })
+router.delete("/eliminarPubli/:id", async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const deletePublicacion=await Publicacion.destroy({
+            where:{
+                publicacion_id:id
+            },
+        })
+        res.send("Publicacion eliminada")
+    }catch(error){
+        res.status(500).json({error: "Error al eliminar publicacion"})
+    }
 })
 
 module.exports=router;
